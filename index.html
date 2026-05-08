@@ -1,0 +1,1973 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>泉州花灯·自由组合</title>
+  <style>
+    @font-face {
+      font-family: "DreamHanSerifCN";
+      src: url("./fonts/DreamHanSerifCN-W22.ttf") format("truetype");
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    :root {
+      --theme: #2c1552;
+      --theme-active: #5a2b96;
+      --type-theme: #bc9ee1;
+      --type-theme-active: #a87dcf;
+      --text-on-theme: #ffffff;
+      --disabled-bg: #ddd2ee;
+      --disabled-text: #8a8099;
+      --page-bg: #100921;
+      --page-edge-gap: 18px;
+      --type-title-top: 30px;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      height: 100%;
+      background: #100921;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      height: 100%;
+      background: #100921;
+      font-family: "DreamHanSerifCN", sans-serif;
+      color: #2f2a36;
+      overflow: hidden;
+    }
+
+    button {
+      font-family: inherit;
+    }
+
+    .app {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      height: 100dvh;
+      background: var(--page-bg);
+      overflow: hidden;
+      display: block;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .page {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+    }
+
+    #homePage {
+      background: var(--page-bg) url("images/home_bg.png") center / cover no-repeat;
+    }
+
+    #typePage {
+      background: var(--page-bg);
+    }
+
+    .type-content {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 72px 24px 24px;
+    }
+
+    .type-title {
+      position: absolute;
+      top: var(--type-title-top);
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      margin: 0;
+      font-size: 30px;
+      line-height: 1.2;
+      font-weight: 700;
+      color: #ffffff;
+      text-align: center;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+      pointer-events: none;
+    }
+
+    .type-back-btn {
+      position: absolute;
+      top: calc(var(--type-title-top) - 2px);
+      left: var(--page-edge-gap);
+      z-index: 2;
+    }
+
+    .type-btn {
+      position: relative;
+      width: clamp(170px, 20vw, 280px);
+      aspect-ratio: 3 / 4;
+      border: 0;
+      border-radius: 12px;
+      background: var(--theme);
+      color: #fff;
+      font-size: 28px;
+      line-height: 1.2;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 18px;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      overflow: visible;
+    }
+
+    .type-btn.with-desc {
+      justify-content: flex-start;
+      gap: 10px;
+      padding: 14px 14px 16px;
+    }
+
+    .type-btn-title {
+      display: block;
+      font-size: 28px;
+      line-height: 1.15;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+
+    .type-btn.with-desc .type-btn-title {
+      margin-top: 0;
+    }
+
+    .type-btn-desc {
+      display: block;
+      width: 100%;
+      font-size: 13px;
+      line-height: 1.45;
+      font-weight: 500;
+      text-align: center;
+      white-space: normal;
+      overflow: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .type-btn-desc::-webkit-scrollbar {
+      display: none;
+    }
+
+    .type-btn.active,
+    .type-btn:active {
+      background: var(--theme-active);
+      border-color: #7c5da7;
+    }
+
+    /* 选择页图片按钮：点击不出现紫色选中底 */
+    .type-btn-image,
+    .type-btn-image:active,
+    .type-btn-image:focus-visible,
+    .type-btn-image.active {
+      background: transparent !important;
+      border-color: transparent !important;
+      outline: none;
+    }
+
+    .type-cards {
+      width: 100%;
+      max-width: 1100px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(16px, 2.2vw, 34px);
+      overflow: visible;
+    }
+
+    .type-btn-image {
+      width: clamp(220px, 24vw, 340px);
+      height: auto;
+      aspect-ratio: auto;
+      border: 0;
+      border-radius: 0;
+      padding: 0;
+      background: transparent;
+      display: block;
+      position: relative;
+      overflow: visible;
+      transform: translateY(-40px);
+    }
+
+    .type-btn-image img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      border-radius: 20px;
+      display: block;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .type-btn-image.active img,
+    .type-btn-image:active img {
+      border-radius: 20px;
+    }
+
+    .type-btn-main-img-plain {
+      position: relative;
+      z-index: 2;
+    }
+
+    .type-btn-kezhi {
+      border: 0;
+      background: transparent;
+      padding: 0;
+      display: block;
+    }
+
+    .type-btn-kezhi-main {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      height: auto;
+      border-radius: 6px;
+      overflow: hidden;
+      display: block;
+    }
+
+    .type-btn-kezhi-main img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      display: block;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .type-btn-open-panel {
+      position: absolute;
+      left: 50%;
+      top: calc(100% + 30px);
+      z-index: 1;
+      width: 100%;
+      height: auto;
+      opacity: 0;
+      transform: translate(-50%, -62%) scale(0.985);
+      transform-origin: top center;
+      transition: opacity 220ms ease, transform 280ms cubic-bezier(0.2, 0.75, 0.2, 1);
+      pointer-events: none;
+    }
+
+    .type-btn-open-panel.bottom-layer {
+      z-index: 0;
+    }
+
+    .type-btn-open-panel.zhizha-open {
+      top: calc(100% + 40px);
+    }
+
+    .type-btn-open-panel.zhenci-open {
+      top: calc(100% + 40px);
+    }
+
+    .type-btn-open-panel img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      border-radius: 0;
+      display: block;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .type-btn-image:hover .type-btn-open-panel,
+    .type-btn-image:focus-visible .type-btn-open-panel {
+      opacity: 1;
+      transform: translate(-50%, -20%) scale(1);
+    }
+
+    .home-bg-float-stack {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .home-bg-float-stack img {
+      position: absolute;
+      inset: -3.5%;
+      width: 107%;
+      height: 107%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .home-bg-float-stack img:nth-child(1) {
+      z-index: 1;
+      animation: home-bg-float-1 6.93s ease-in-out infinite;
+      animation-delay: 0s;
+    }
+
+    .home-bg-float-stack img:nth-child(2) {
+      z-index: 2;
+      animation: home-bg-float-2 7.47s ease-in-out infinite;
+      animation-delay: -1.17s;
+    }
+
+    .home-bg-float-stack img:nth-child(3) {
+      z-index: 3;
+      animation: home-bg-float-3 8.21s ease-in-out infinite;
+      animation-delay: -2.58s;
+    }
+
+    .home-bg-float-stack img:nth-child(4) {
+      z-index: 4;
+      animation: home-bg-float-4 7.08s ease-in-out infinite;
+      animation-delay: -0.41s;
+    }
+
+    .home-bg-float-stack img:nth-child(5) {
+      z-index: 5;
+      animation: home-bg-float-5 9.07s ease-in-out infinite;
+      animation-delay: -3.94s;
+    }
+
+    .home-bg-float-stack img:nth-child(6) {
+      z-index: 6;
+      animation: home-bg-float-6 6.64s ease-in-out infinite;
+      animation-delay: -1.83s;
+    }
+
+    .home-bg-float-stack img:nth-child(7) {
+      z-index: 7;
+      animation: home-bg-float-7 8.76s ease-in-out infinite;
+      animation-delay: -4.71s;
+    }
+
+    @keyframes home-bg-float-1 {
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-3.55%);
+      }
+    }
+
+    @keyframes home-bg-float-2 {
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(3.05%);
+      }
+    }
+
+    @keyframes home-bg-float-3 {
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-2.6%);
+      }
+    }
+
+    @keyframes home-bg-float-4 {
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(3.4%);
+      }
+    }
+
+    @keyframes home-bg-float-5 {
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-4.45%);
+      }
+    }
+
+    @keyframes home-bg-float-6 {
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(2.75%);
+      }
+    }
+
+    @keyframes home-bg-float-7 {
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-3.25%);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .home-bg-float-stack img {
+        animation: none !important;
+      }
+    }
+
+    .home-content {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+    }
+
+    .start-btn {
+      position: absolute;
+      left: 50%;
+      top: 74%;
+      transform: translate(-50%, -50%);
+      width: 188px;
+      height: 58px;
+      border: 0;
+      border-radius: 30px;
+      background: #ffffff;
+      color: #000000;
+      font-size: 26px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    #makerPage {
+      padding: 0;
+      box-sizing: border-box;
+      height: 100%;
+      min-height: 100%;
+    }
+
+    .maker-shell {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding: var(--page-edge-gap) var(--page-edge-gap) 8px;
+      box-sizing: border-box;
+    }
+
+    .maker-main {
+      display: flex;
+      flex-direction: row;
+      flex: 1;
+      min-height: 0;
+      gap: 14px;
+      align-items: stretch;
+    }
+
+    .maker-stage {
+      flex: 6 1 0;
+      min-width: 0;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: flex-start;
+      padding: clamp(6px, 1.2vw, 20px);
+    }
+
+    .maker-panel {
+      flex: 4 1 0;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .maker-topbar {
+      height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 1;
+      flex-shrink: 0;
+    }
+
+    .back-btn,
+    .confirm-btn {
+      width: 40px;
+      height: 40px;
+      border: 0;
+      border-radius: 8px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      line-height: 40px;
+    }
+
+    .back-btn img {
+      width: 59.2%;
+      height: 59.2%;
+      object-fit: contain;
+      display: block;
+      transform: translate(1px, -1px);
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .confirm-btn img {
+      width: 130%;
+      height: 130%;
+      object-fit: contain;
+      display: block;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .back-btn {
+      background: transparent;
+      color: inherit;
+    }
+
+    .confirm-btn {
+      background: transparent;
+      color: inherit;
+      justify-content: flex-end;
+    }
+
+    .display-area {
+      position: relative;
+      flex: 1 1 0;
+      min-height: 0;
+      align-self: center;
+      width: 86%;
+      max-width: 100%;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #100921;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .maker-nav-btn {
+      position: absolute;
+      top: 48%;
+      transform: translateY(-50%);
+      width: 42px;
+      height: 42px;
+      border: 0;
+      padding: 0;
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 2;
+    }
+
+    .maker-nav-btn img {
+      width: 110%;
+      height: 110%;
+      object-fit: contain;
+      display: block;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .maker-nav-left {
+      left: 52px;
+    }
+
+    .maker-nav-right {
+      right: 52px;
+    }
+
+    .maker-show-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+      transform: scale(1.12) translateY(-1.2%);
+      transform-origin: center center;
+      z-index: 0;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .flip-scene {
+      position: relative;
+      z-index: 1;
+      flex: 1 1 0;
+      min-height: 0;
+      width: 100%;
+      perspective: 1000px;
+    }
+
+    .flip-card {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+      transform-style: preserve-3d;
+    }
+
+    .flip-front {
+      transform: rotateY(0deg);
+    }
+
+    /* 打勾预览：正面画布与背面 combo_back 同为 97% 框内居中，翻转时在同一水平/垂直基准上 */
+    #makerPage.preview-mode .flip-front {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #makerPage.preview-mode #lampCanvas {
+      width: 97%;
+      height: 97%;
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    .flip-face {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+
+    .flip-back {
+      transform: rotateY(180deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #100921;
+    }
+
+    /* 与画布上 combo 成品图一致：在 97% 框内 contain 居中（见 COMBO_PREVIEW_FIT） */
+    .combo-preview-fit {
+      width: 97%;
+      height: 97%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      pointer-events: none;
+    }
+
+    .combo-preview-fit img {
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      display: block;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    #lampCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 0;
+      z-index: 1;
+      flex-shrink: 0;
+      height: 68px;
+      padding: 0 10px;
+      border-radius: 12px 12px 0 0;
+      background: #2a1d44;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-bottom: 0;
+      align-items: stretch;
+    }
+
+    .tab-btn {
+      flex: 1;
+      border: 0;
+      border-radius: 0;
+      height: 68px;
+      padding: 0 6px;
+      font-size: 20px;
+      background: transparent;
+      color: rgba(255, 255, 255, 0.62);
+      cursor: pointer;
+      position: relative;
+      font-weight: 600;
+    }
+
+    .tab-btn.active {
+      color: #ffffff;
+    }
+
+    .tab-btn.active::after {
+      content: "";
+      position: absolute;
+      left: 34%;
+      right: 34%;
+      bottom: 0;
+      height: 3px;
+      border-radius: 999px;
+      background: #ffffff;
+    }
+
+    .tab-btn.locked {
+      background: #271a41;
+      color: rgba(255, 255, 255, 0.45);
+      cursor: not-allowed;
+    }
+
+    .tab-btn.locked::after {
+      display: none;
+    }
+
+    .bottom-area {
+      display: flex;
+      flex-direction: row;
+      gap: 0;
+      width: 100%;
+      min-height: 0;
+      flex: 1;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .left-buttons {
+      width: 108px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      flex-shrink: 0;
+      border-radius: 0;
+      overflow: hidden;
+      background: #271a41;
+    }
+
+    .mode-btn {
+      width: 100%;
+      height: 76px;
+      border: 0;
+      border-radius: 0;
+      background: #2a1d44;
+      color: rgba(255, 255, 255, 0.72);
+      font-size: 17px;
+      cursor: pointer;
+      text-align: center;
+      padding: 0;
+    }
+
+    .mode-btn.active {
+      background: #392952;
+      color: #ffffff;
+    }
+
+    #patternBtn:not(.active):not(:disabled) {
+      background: #271a41;
+    }
+
+    .mode-btn:disabled {
+      background: #1b1330;
+      color: var(--disabled-text);
+      cursor: not-allowed;
+    }
+
+    /* 非灯体 Tab：不显示纹样，仅隐藏该按钮 */
+    #patternBtn.pattern-tab-hidden {
+      display: none;
+    }
+
+    .right-options {
+      flex: 1;
+      width: 100%;
+      padding: 10px;
+      border-radius: 0;
+      background: #392952;
+      border: 0;
+      overflow-y: auto;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      align-content: start;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .right-options::-webkit-scrollbar {
+      display: none;
+    }
+
+    .right-options.grid-2x3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .option {
+      width: 100%;
+      aspect-ratio: 3 / 3.5;
+      border-radius: 8px;
+      border: 2px solid rgba(99, 76, 116, 0.6);
+      background: #352050;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      padding: 6px;
+      cursor: pointer;
+      text-align: center;
+      user-select: none;
+      min-height: 0;
+    }
+
+    .option.active {
+      border: 2px solid transparent;
+      background:
+        linear-gradient(#352050, #352050) padding-box,
+        linear-gradient(45deg, #cd76fc, #ff4aa7, #6b73ff) border-box;
+    }
+
+    .option.disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      border-color: transparent;
+      background: #5b4b73;
+    }
+
+    .option.placeholder {
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .option img {
+      max-width: 82%;
+      max-height: 78%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      pointer-events: none;
+      flex-shrink: 0;
+    }
+
+    /* 灯体 → 纹样：缩略图与下方文案 */
+    .option.pattern-option img {
+      max-height: 54%;
+    }
+
+    .option.pattern-option {
+      gap: 14px;
+      justify-content: center;
+      align-items: center;
+      padding: 6px 5px 10px;
+    }
+
+    .option.pattern-option span {
+      font-size: 18px;
+      line-height: 1.42;
+      text-align: center;
+      width: 100%;
+      flex-shrink: 0;
+      margin-top: 4px;
+    }
+
+    /* 缩略图 90%（灯帽、灯托、灯体样式4 等） */
+    .option.thumb-90 img {
+      display: block;
+      transform: scale(0.9);
+      transform-origin: center center;
+    }
+
+    /* 缩略图 80%（灯托样式3 等） */
+    .option.thumb-80 img {
+      display: block;
+      transform: scale(0.8);
+      transform-origin: center center;
+    }
+
+    /* 灯体样式2：在 80% 基础上再 ×0.8（相对原图约 64%） */
+    .option.thumb-body2 img {
+      display: block;
+      transform: scale(0.64);
+      transform-origin: center center;
+    }
+
+    /* 灯体样式3：在 90% 基础上再 ×0.9（相对原图约 81%） */
+    .option.thumb-body3 img {
+      display: block;
+      transform: scale(0.81);
+      transform-origin: center center;
+    }
+
+    /* 缩略图 70%（灯体样式1） */
+    .option.thumb-70 img {
+      display: block;
+      transform: scale(0.7);
+      transform-origin: center center;
+    }
+
+    /* 纸扎灯灯垂选项6：50% */
+    .option.thumb-50 img {
+      display: block;
+      transform: scale(0.5);
+      transform-origin: center center;
+    }
+
+    .option span {
+      font-size: 13px;
+      line-height: 1.25;
+      pointer-events: none;
+      text-align: center;
+    }
+
+    #makerPage.preview-mode .maker-show-bg {
+      display: none;
+    }
+
+    #makerPage.preview-mode .maker-nav-btn {
+      display: none;
+    }
+
+    #makerPage.preview-mode .maker-panel {
+      display: none;
+    }
+
+    #makerPage.preview-mode .confirm-btn {
+      display: none;
+    }
+
+    .preview-replay-btn {
+      display: none;
+      position: absolute;
+      z-index: 2;
+      right: max(14px, env(safe-area-inset-right, 0px));
+      bottom: max(14px, env(safe-area-inset-bottom, 0px));
+      padding: 10px 18px;
+      border: 0;
+      border-radius: 8px;
+      background: var(--theme);
+      color: #fff;
+      font-size: 15px;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+    }
+
+    #makerPage.preview-mode .preview-replay-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .preview-replay-btn .preview-replay-icon {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      transform: translateY(0.4px);
+    }
+
+    .preview-qr-panel {
+      display: none;
+      position: absolute;
+      z-index: 4;
+      left: max(10px, env(safe-area-inset-left));
+      bottom: max(10px, env(safe-area-inset-bottom));
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      background: rgba(16, 9, 33, 0.88);
+      max-width: min(200px, 42vw);
+      pointer-events: none;
+      box-sizing: border-box;
+    }
+
+    .preview-qr-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.92);
+      text-align: center;
+      line-height: 1.25;
+    }
+
+    #previewQrCanvas {
+      display: block;
+      border-radius: 4px;
+      background: #fff;
+    }
+
+    .preview-qr-hint {
+      font-size: 10px;
+      color: rgba(255, 255, 255, 0.72);
+      text-align: center;
+      line-height: 1.35;
+      max-width: 180px;
+    }
+
+    #makerPage.preview-mode .preview-qr-panel {
+      display: flex;
+    }
+
+    /* 预览：仅左侧展示区；卡片大小与制作页同列时一致（见上 .display-area 宽度） */
+    #makerPage.preview-mode .maker-main {
+      gap: 0;
+    }
+
+    #makerPage.preview-mode .maker-stage {
+      flex: 1;
+      padding: clamp(10px, 2vw, 40px);
+    }
+
+    /* 完成页：展示区水平宽度与制作页一致（制作页 stage 占 6/(6+4)，区内 width 86% → 约 51.6% 主区域） */
+    #makerPage.preview-mode .display-area {
+      flex: 1 1 0;
+      min-height: 0;
+      align-self: center;
+      width: calc(86% * 6 / (6 + 4));
+      max-width: min(100%, calc(100vw - 24px));
+      margin: 0 auto;
+    }
+
+    /* 打勾进入预览时：先看到背面，再翻到正面，缓动靠后 */
+    .flip-card.flip-on-enter {
+      animation: previewCardFlip 1700ms cubic-bezier(0.22, 0.7, 0.2, 1);
+      animation-fill-mode: both;
+      will-change: transform;
+    }
+
+    @keyframes previewCardFlip {
+      0% { transform: rotateY(180deg); }
+      29.4% { transform: rotateY(180deg); } /* 前 0.5s 停在背面 */
+      100% { transform: rotateY(360deg); }
+    }
+
+    @media (max-width: 720px) {
+      .maker-main {
+        flex-direction: column;
+      }
+
+      .maker-panel {
+        flex: 0 1 auto;
+        width: 100%;
+        max-width: 100%;
+        max-height: 46vh;
+      }
+
+      .maker-stage {
+        flex: 1 1 auto;
+        min-height: 0;
+      }
+
+      .display-area {
+        flex: 1 1 0;
+        align-self: stretch;
+        width: 100%;
+        min-height: 260px;
+        max-height: min(62vh, 640px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <section id="homePage" class="page">
+      <div class="home-bg-float-stack" aria-hidden="true">
+        <img src="images/home_bg_1.png" alt="" />
+        <img src="images/home_bg_2.png" alt="" />
+        <img src="images/home_bg_3.png" alt="" />
+        <img src="images/home_bg_4.png" alt="" />
+        <img src="images/home_bg_5.png" alt="" />
+        <img src="images/home_bg_6.png" alt="" />
+        <img src="images/home_bg_7.png" alt="" />
+      </div>
+      <div class="home-content">
+        <button id="startBtn" class="start-btn">开始制作</button>
+      </div>
+    </section>
+
+    <section id="typePage" class="page hidden">
+      <img class="bg" src="images/maker_bg.png" alt="类型页背景" />
+      <button id="typeBackBtn" class="back-btn type-back-btn" aria-label="返回首页">
+        <img src="images/icon_back.png" alt="" aria-hidden="true" />
+      </button>
+      <h2 class="type-title">选择花灯工艺</h2>
+      <div class="type-content">
+        <div class="type-cards">
+          <button class="type-btn type-btn-image type-btn-kezhi" data-type="kezhi_liaosi" aria-label="刻纸料丝灯">
+            <span class="type-btn-kezhi-main">
+              <img src="images/type_kezhi.png" alt="" aria-hidden="true" />
+            </span>
+            <span class="type-btn-open-panel" aria-hidden="true">
+              <img src="images/type_kezhi_open.png" alt="" />
+            </span>
+          </button>
+          <button class="type-btn type-btn-image" data-type="zhizha" aria-label="纸扎灯">
+            <img class="type-btn-main-img-plain" src="images/type_zhizha.png" alt="" aria-hidden="true" />
+            <span class="type-btn-open-panel bottom-layer zhizha-open" aria-hidden="true">
+              <img src="images/type_zhizha_open.png" alt="" />
+            </span>
+          </button>
+          <button class="type-btn type-btn-image" data-type="zhenci_wugu" aria-label="针刺无骨灯">
+            <img class="type-btn-main-img-plain" src="images/type_zhenci_wugu.png" alt="" aria-hidden="true" onerror="this.onerror=null;this.src='images/type_zhenci.png';" />
+            <span class="type-btn-open-panel bottom-layer zhenci-open" aria-hidden="true">
+              <img src="images/type_zhenci_open.png" alt="" />
+            </span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section id="makerPage" class="page hidden">
+      <img class="bg" src="images/maker_bg.png" alt="制作页背景" />
+
+      <div class="maker-shell">
+        <div class="maker-topbar">
+          <button id="backBtn" class="back-btn" aria-label="返回">
+            <img src="images/icon_back.png" alt="" aria-hidden="true" />
+          </button>
+          <button id="confirmBtn" class="confirm-btn" aria-label="预览成品">
+            <img src="images/icon_done.png" alt="" aria-hidden="true" />
+          </button>
+        </div>
+
+        <div class="maker-main">
+          <div class="maker-stage">
+            <div class="display-area">
+              <button id="makerNavLeft" class="maker-nav-btn maker-nav-left" aria-label="上一个样式">
+                <img src="images/icon_maker_left.png" alt="" aria-hidden="true" />
+              </button>
+              <button id="makerNavRight" class="maker-nav-btn maker-nav-right" aria-label="下一个样式">
+                <img src="images/icon_maker_right.png" alt="" aria-hidden="true" />
+              </button>
+              <img class="maker-show-bg" src="images/maker_show.png" alt="" aria-hidden="true" />
+              <div class="flip-scene">
+                <div id="flipCard" class="flip-card">
+                  <div class="flip-face flip-front">
+                    <canvas id="lampCanvas"></canvas>
+                  </div>
+                  <div class="flip-face flip-back">
+                    <div class="combo-preview-fit">
+                      <img id="comboBackImg" src="images/combo_back.png" alt="组合背面" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="previewQrPanel" class="preview-qr-panel" aria-hidden="true">
+                <span class="preview-qr-title">扫码保存成品图</span>
+                <canvas id="previewQrCanvas" width="128" height="128"></canvas>
+                <span class="preview-qr-hint">手机打开后长按图片可存相册</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="maker-panel">
+            <div class="tabs" id="tabsWrap"></div>
+
+            <div class="bottom-area">
+              <div class="left-buttons">
+                <button id="styleBtn" class="mode-btn active" data-mode="style">样式</button>
+                <button id="patternBtn" class="mode-btn" data-mode="pattern" disabled>纹样</button>
+              </div>
+              <div class="right-options" id="optionsGrid"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button type="button" id="previewReplayBtn" class="preview-replay-btn" aria-label="重新播放预览动效">
+        <svg class="preview-replay-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+          <path
+            fill="currentColor"
+            d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"
+          />
+        </svg>
+        重新播放
+      </button>
+    </section>
+  </div>
+
+  <script src="lantern-config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js" crossorigin="anonymous"></script>
+  <script>
+    const OPTION_COUNTS = { cap: 4, bodyStyle: 4, base: 4, chui: 6 };
+    const OPTION_SLOT_COUNT_CHUI = 6;
+    const OPTION_SLOT_COUNT_DEFAULT = 4;
+    const BODY_PATTERN_LABELS = ["繁花似锦", "年年有余", "泉州东西塔", "凤舞吉祥"];
+    /** 灯图：仅刻纸料丝灯在展示区内相对垂直居中再略向上（相对画布高度） */
+    const LAMP_DRAW_SHIFT_UP_RATIO = 0.038;
+    /** 针刺无骨灯展示区图片额外上移（相对画布高度，如 0.1 即 10%） */
+    const ZHENCI_DISPLAY_SHIFT_UP_RATIO = 0.1;
+    /** 针刺无骨灯展示区在上移基础上再下移（相对画布高度，如 0.05 即 5%） */
+    const ZHENCI_DISPLAY_SHIFT_DOWN_RATIO = 0.05;
+    /** 预览中 combo / combo_back 在展示区内留白比例，须与 .combo-preview-fit 的 97% 一致 */
+    const COMBO_PREVIEW_FIT = 0.97;
+    /** 制作页编辑区：画布在 fit 后再放大到此倍数（当前为 1 即不额外放大） */
+    const DISPLAY_AREA_IMAGE_SCALE = 1;
+    /** 打勾后的展示页：画布不再额外放大（与 COMBO_PREVIEW_FIT 一致） */
+    const PREVIEW_DISPLAY_AREA_IMAGE_SCALE = 1;
+    /** 纸扎灯展示区画布再缩小到此比例（在 DISPLAY_AREA_IMAGE_SCALE 之后） */
+    const ZHIZHA_DISPLAY_IMAGE_SCALE = 0.9;
+    /** 扫码用图片地址前缀：在 lantern-config.js 里设 window.LANTERN_PUBLIC_BASE_URL（须以 / 结尾）；不填则用当前页面地址。 */
+    const PUBLIC_BASE_URL =
+      typeof window !== "undefined" && typeof window.LANTERN_PUBLIC_BASE_URL === "string"
+        ? window.LANTERN_PUBLIC_BASE_URL.trim()
+        : "";
+
+    const LAMP_TYPES = [
+      { key: "kezhi_liaosi", label: "刻纸料丝灯" },
+      { key: "zhizha", label: "纸扎灯" },
+      { key: "zhenci_wugu", label: "针刺无骨灯" },
+    ];
+
+    const tabs = [
+      { key: "cap", label: "灯帽" },
+      { key: "body", label: "灯体" },
+      { key: "base", label: "灯托" },
+      { key: "chui", label: "灯垂" }
+    ];
+
+    function createDefaultState() {
+      return {
+        currentTab: "cap",
+        bodyMode: "style",
+        zhenciMode: "pattern",
+        zhenciDisplayMode: null,
+        selected: { cap: 1, bodyStyle: 1, bodyPattern: 1, base: 1, chui: 1, zhenciPattern: 1, zhenciColor: 1 },
+        bodyDisplayMode: "style",
+        shownParts: { cap: false, body: false, base: false, chui: false, zhenciPattern: false, zhenciColor: false },
+        previewMode: false
+      };
+    }
+
+    let currentLampType = null;
+    const makerStates = Object.fromEntries(LAMP_TYPES.map((item) => [item.key, createDefaultState()]));
+    let state = makerStates.kezhi_liaosi;
+
+    const imageCache = new Map();
+
+    const homePage = document.getElementById("homePage");
+    const typePage = document.getElementById("typePage");
+    const makerPage = document.getElementById("makerPage");
+    const startBtn = document.getElementById("startBtn");
+    const backBtn = document.getElementById("backBtn");
+    const typeBackBtn = document.getElementById("typeBackBtn");
+    const confirmBtn = document.getElementById("confirmBtn");
+    const previewReplayBtn = document.getElementById("previewReplayBtn");
+    const tabsWrap = document.getElementById("tabsWrap");
+    const styleBtn = document.getElementById("styleBtn");
+    const patternBtn = document.getElementById("patternBtn");
+    const optionsGrid = document.getElementById("optionsGrid");
+    const makerNavLeft = document.getElementById("makerNavLeft");
+    const makerNavRight = document.getElementById("makerNavRight");
+    const flipCard = document.getElementById("flipCard");
+    const comboBackImg = document.getElementById("comboBackImg");
+    const canvas = document.getElementById("lampCanvas");
+    const ctx = canvas.getContext("2d");
+    const typeButtons = Array.from(document.querySelectorAll(".type-btn"));
+
+    function getTypeDir() {
+      return currentLampType || "kezhi_liaosi";
+    }
+
+    function isZhenciType() {
+      return getTypeDir() === "zhenci_wugu";
+    }
+
+    /**
+     * 针刺无骨灯：展示区大图在 images/zhenci_wugu/
+     * - 未点选：bg.png；仅纹样：pattern_img_*；仅颜色：color_img_*
+     * - 纹样与颜色都选过，且当前为「颜色」展示态：编辑区大图 zhenci_纹样_颜色.png；打勾预览从 combos/combo_*.png 加载（见 getComboImageSrc）
+     * - 改换纹样后展示态变为 pattern，回到纹样大图；需再选颜色或切到颜色栏才会再显示成品
+     * - 底部选项小图：pattern_*.png、color_*.png
+     */
+    function getZhenciDisplaySrc() {
+      const s = state.selected;
+      if (!state.zhenciDisplayMode) return `images/${getTypeDir()}/bg.png`;
+      if (state.shownParts.zhenciPattern && state.shownParts.zhenciColor && state.zhenciDisplayMode === "color") {
+        return `images/${getTypeDir()}/zhenci_${s.zhenciPattern}_${s.zhenciColor}.png`;
+      }
+      const n = state.zhenciDisplayMode === "pattern" ? s.zhenciPattern : s.zhenciColor;
+      return state.zhenciDisplayMode === "pattern"
+        ? `images/${getTypeDir()}/pattern_img_${n}.png`
+        : `images/${getTypeDir()}/color_img_${n}.png`;
+    }
+
+    /** 纸扎灯：灯体样式 4 可选纹样；料丝灯：灯体样式 2 可选纹样（4 个） */
+    function allowsBodyPattern() {
+      if (isZhenciType()) return false;
+      if (getTypeDir() === "zhizha") return state.selected.bodyStyle === 4;
+      return state.selected.bodyStyle === 2;
+    }
+
+    function getBodyPatternOptionCount() {
+      return getTypeDir() === "zhizha" ? 2 : 4;
+    }
+
+    function setCanvasSize() {
+      const dpr = window.devicePixelRatio || 1;
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = Math.floor(rect.width * dpr);
+      canvas.height = Math.floor(rect.height * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    /**
+     * 组合成品图（打勾预览）：
+     * - 针刺无骨灯：images/zhenci_wugu/combos/combo_纹样_颜色.png
+     * - 纸扎灯：images/zhizha/combo_灯帽_灯体段_灯托_灯垂.png
+     *   灯体段：样式为 1~4；纹样为 pattern_纹样编号（如 pattern_2）
+     *   灯垂：1~6
+     * - 料丝灯：images/kezhi_liaosi/combo_*（灯体段规则同纸扎）
+     */
+    function getComboImageSrc() {
+      const s = state.selected;
+      if (isZhenciType()) {
+        return `images/${getTypeDir()}/combos/combo_${s.zhenciPattern}_${s.zhenciColor}.png`;
+      }
+      const bodySeg =
+        state.bodyDisplayMode === "pattern" ? `pattern_${s.bodyPattern}` : String(s.bodyStyle);
+      return `images/${getTypeDir()}/combo_${s.cap}_${bodySeg}_${s.base}_${s.chui}.png`;
+    }
+
+    /** 针刺灯打勾预览：依次尝试 combos 子目录、类型根目录下的 combo_ / zhenci_（支持 1/01 编号与 png/jpg） */
+    async function loadComboPreviewImageResource() {
+      if (isZhenciType()) {
+        const s = state.selected;
+        const typeKey = currentLampType || getTypeDir();
+        const base = `images/${typeKey}`;
+        const ap = String(s.zhenciPattern).trim();
+        const bp = String(s.zhenciColor).trim();
+        const n1 = Number(ap);
+        const n2 = Number(bp);
+        const p2 = (n) => (Number.isFinite(n) && n >= 0 ? String(n).padStart(2, "0") : "");
+        const stems = [];
+        const addStem = (x, y) => {
+          const key = `${x}_${y}`;
+          if (!stems.includes(key)) stems.push(key);
+        };
+        addStem(ap, bp);
+        if (p2(n1) && p2(n2)) addStem(p2(n1), p2(n2));
+
+        const exts = ["png", "jpg", "jpeg", "webp"];
+        const folders = [
+          (stem) => `${base}/combos/combo_${stem}`,
+          (stem) => `${base}/combo_${stem}`,
+          (stem) => `${base}/zhenci_${stem}`,
+        ];
+        const candidates = [];
+        for (const stem of stems) {
+          for (const mk of folders) {
+            const pathNoExt = mk(stem);
+            for (const ext of exts) {
+              candidates.push(`${pathNoExt}.${ext}`);
+            }
+          }
+        }
+        for (const src of candidates) {
+          try {
+            const img = await loadImage(src);
+            return { img, resolvedSrc: src };
+          } catch {
+            /* 试下一路径 */
+          }
+        }
+        const pageHint = typeof window !== "undefined" && window.location
+          ? `\n\n当前页面地址：${window.location.href}\n请从与 images 文件夹同级的 index.html 打开，或使用本地 HTTP 服务（避免子目录相对路径错误）。`
+          : "";
+        throw new Error(candidates.slice(0, 12).join("\n") + (candidates.length > 12 ? "\n…" : "") + pageHint);
+      }
+      const resolvedSrc = getComboImageSrc();
+      const img = await loadImage(resolvedSrc);
+      return { img, resolvedSrc };
+    }
+
+    function getOptionMeta() {
+      const { currentTab, bodyMode, selected } = state;
+      if (isZhenciType()) {
+        if (state.zhenciMode === "color") {
+          return { prefix: "color_", title: "颜色", active: selected.zhenciColor, count: 4, disabled: false };
+        }
+        return { prefix: "pattern_", title: "纹样", active: selected.zhenciPattern, count: 4, disabled: false };
+      }
+      if (currentTab === "cap") return { prefix: "cap_", title: "灯帽", active: selected.cap, count: OPTION_COUNTS.cap, disabled: false };
+      if (currentTab === "base") return { prefix: "base_", title: "灯托", active: selected.base, count: OPTION_COUNTS.base, disabled: false };
+      if (currentTab === "chui") return { prefix: "chui_", title: "灯垂", active: selected.chui, count: OPTION_COUNTS.chui, disabled: false };
+      if (bodyMode === "style") {
+        return { prefix: "body_style_", title: "样式", active: selected.bodyStyle, count: OPTION_COUNTS.bodyStyle, disabled: false };
+      }
+      return {
+        prefix: "body_pattern_",
+        title: "纹样",
+        optionLabels: BODY_PATTERN_LABELS,
+        active: selected.bodyPattern,
+        count: getBodyPatternOptionCount(),
+        disabled: !allowsBodyPattern()
+      };
+    }
+
+    function renderTabs() {
+      tabsWrap.innerHTML = "";
+      if (isZhenciType()) {
+        tabs.forEach((item) => {
+          const btn = document.createElement("button");
+          btn.className = "tab-btn locked";
+          btn.textContent = item.label;
+          btn.disabled = true;
+          tabsWrap.appendChild(btn);
+        });
+        return;
+      }
+      tabs.forEach((item) => {
+        const btn = document.createElement("button");
+        btn.className = "tab-btn" + (state.currentTab === item.key ? " active" : "");
+        btn.textContent = item.label;
+        btn.dataset.key = item.key;
+        btn.addEventListener("click", onTabClick);
+        tabsWrap.appendChild(btn);
+      });
+    }
+
+    function renderModeButtons() {
+      if (isZhenciType()) {
+        styleBtn.textContent = "纹样";
+        patternBtn.textContent = "颜色";
+        patternBtn.classList.remove("pattern-tab-hidden");
+        patternBtn.disabled = false;
+        styleBtn.classList.toggle("active", state.zhenciMode === "pattern");
+        patternBtn.classList.toggle("active", state.zhenciMode === "color");
+        return;
+      }
+      styleBtn.textContent = "样式";
+      patternBtn.textContent = "纹样";
+      const isBody = state.currentTab === "body";
+      /* 灯帽 / 灯托 / 灯垂：隐藏纹样按钮，保留样式 */
+      patternBtn.classList.toggle("pattern-tab-hidden", !isBody);
+      patternBtn.disabled = !isBody || !allowsBodyPattern();
+      if (!isBody && state.bodyMode === "pattern") state.bodyMode = "style";
+      if (isBody && !allowsBodyPattern() && state.bodyMode === "pattern") {
+        state.bodyMode = "style";
+        state.bodyDisplayMode = "style";
+      }
+      if (!allowsBodyPattern() && state.bodyDisplayMode === "pattern") state.bodyDisplayMode = "style";
+      styleBtn.classList.toggle("active", state.bodyMode === "style");
+      patternBtn.classList.toggle("active", state.bodyMode === "pattern");
+    }
+
+    function renderOptions() {
+      const meta = getOptionMeta();
+      const slotCount = state.currentTab === "chui"
+        ? OPTION_SLOT_COUNT_CHUI
+        : (isZhenciType() ? 4 : (state.currentTab === "body" && state.bodyMode === "pattern" ? getBodyPatternOptionCount() : OPTION_SLOT_COUNT_DEFAULT));
+      let activeIndex = meta.active;
+      if (isZhenciType()) {
+        if (state.zhenciMode === "pattern" && !state.shownParts.zhenciPattern) activeIndex = null;
+        if (state.zhenciMode === "color" && !state.shownParts.zhenciColor) activeIndex = null;
+      } else {
+        if (state.currentTab === "cap" && !state.shownParts.cap) activeIndex = null;
+        if (state.currentTab === "base" && !state.shownParts.base) activeIndex = null;
+        if (state.currentTab === "chui" && !state.shownParts.chui) activeIndex = null;
+        if (state.currentTab === "body" && !state.shownParts.body) activeIndex = null;
+      }
+      optionsGrid.classList.toggle("grid-2x3", state.currentTab === "chui");
+      optionsGrid.innerHTML = "";
+      for (let i = 1; i <= slotCount; i += 1) {
+        const node = document.createElement("div");
+        if (i > meta.count) {
+          node.className = "option placeholder";
+          optionsGrid.appendChild(node);
+          continue;
+        }
+        const labelText = meta.optionLabels && meta.optionLabels[i - 1] ? meta.optionLabels[i - 1] : `${meta.title}${i}`;
+        const showOptionText = false;
+        let optCls = "option" + (activeIndex === i ? " active" : "") + (meta.disabled ? " disabled" : "");
+        if (getTypeDir() === "zhizha" && state.currentTab === "cap") {
+          optCls += " thumb-90";
+        }
+        if (state.currentTab === "base") {
+          optCls += (i === 3 ? " thumb-80" : " thumb-90");
+        }
+        if (state.currentTab === "body" && state.bodyMode === "style" && i === 1) {
+          optCls += " thumb-70";
+        }
+        if (state.currentTab === "body" && state.bodyMode === "style" && i === 2) {
+          optCls += " thumb-body2";
+        }
+        if (state.currentTab === "body" && state.bodyMode === "style" && i === 3) {
+          optCls += " thumb-body3";
+        }
+        if (state.currentTab === "body" && state.bodyMode === "style" && i === 4) {
+          optCls += " thumb-90";
+        }
+        if (getTypeDir() === "zhizha" && state.currentTab === "chui" && i === 6) {
+          optCls += " thumb-50";
+        }
+        if (showOptionText) optCls += " pattern-option";
+        node.className = optCls;
+        node.dataset.index = String(i);
+        node.innerHTML = showOptionText
+          ? `<img src="images/${getTypeDir()}/${meta.prefix}${i}.png" alt="${labelText}"><span>${labelText}</span>`
+          : `<img src="images/${getTypeDir()}/${meta.prefix}${i}.png" alt="${labelText}">`;
+        if (!meta.disabled) node.addEventListener("click", onOptionClick);
+        optionsGrid.appendChild(node);
+      }
+    }
+
+    function renderUI() {
+      renderTabs();
+      renderModeButtons();
+      renderOptions();
+    }
+
+    function loadImage(src) {
+      if (imageCache.has(src)) return Promise.resolve(imageCache.get(src));
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => {
+          imageCache.set(src, img);
+          resolve(img);
+        };
+        img.onerror = () => reject(new Error("图片加载失败: " + src));
+        img.src = src;
+      });
+    }
+
+    /** 当前静态页的「资源根」（结尾带 /），用于把 images/... 拼成绝对 URL，兼容 GitHub Pages 的 /仓库名/ 子路径 */
+    function getStaticSiteBaseUrl() {
+      const u = new URL(window.location.href);
+      let path = u.pathname;
+      if (path.endsWith("/index.html")) {
+        path = path.slice(0, -"index.html".length);
+      }
+      if (!path.endsWith("/")) {
+        const segments = path.split("/").filter(Boolean);
+        const last = segments.length ? segments[segments.length - 1] : "";
+        const looksLikeFile = /\.[0-9a-z]{1,8}$/i.test(last);
+        path = looksLikeFile ? path.replace(/\/[^/]*$/, "/") : `${path}/`;
+      }
+      return u.origin + path;
+    }
+
+    function getComboImagePublicUrl(relPath) {
+      const rel = String(relPath || "").replace(/^\.\//, "");
+      const base = String(PUBLIC_BASE_URL || "").trim();
+      if (base && /^https?:\/\//i.test(base)) {
+        return base.replace(/\/?$/, "/") + rel;
+      }
+      try {
+        return new URL(rel, getStaticSiteBaseUrl()).href;
+      } catch {
+        return rel;
+      }
+    }
+
+    function updatePreviewQrCode() {
+      const canvasEl = document.getElementById("previewQrCanvas");
+      const panel = document.getElementById("previewQrPanel");
+      const hintEl = panel && panel.querySelector(".preview-qr-hint");
+      if (!canvasEl || !state.previewMode) return;
+      const rel = state.previewComboResolvedSrc || getComboImageSrc();
+      const url = getComboImagePublicUrl(rel);
+      if (panel) {
+        panel.setAttribute("aria-hidden", "false");
+      }
+      if (hintEl) {
+        hintEl.textContent =
+          window.location.protocol === "file:"
+            ? "本地 file 打开时他机无法扫码；部署到 HTTPS 后再试。"
+            : "手机打开后长按图片可存相册";
+      }
+      if (typeof QRCode === "undefined") {
+        if (hintEl) hintEl.textContent = "二维码库加载失败，请联网后重试";
+        return;
+      }
+      const size = Math.round(Math.min(140, Math.max(96, window.innerWidth * 0.22)));
+      QRCode.toCanvas(
+        canvasEl,
+        url,
+        { width: size, margin: 1, color: { dark: "#1a0d2e", light: "#ffffff" } },
+        (err) => {
+          if (err) console.error(err);
+        }
+      );
+    }
+
+    function clearLamp() {
+      const w = canvas.clientWidth;
+      const h = canvas.clientHeight;
+      ctx.clearRect(0, 0, w, h);
+    }
+
+    function getBodyPieceSrc() {
+      const s = state.selected;
+      if (state.bodyDisplayMode === "pattern" && allowsBodyPattern()) return `images/${getTypeDir()}/body_pattern_img_${s.bodyPattern}.png`;
+      return `images/${getTypeDir()}/body_style_img_${s.bodyStyle}.png`;
+    }
+
+    /** 按画布尺寸等比缩放，paddingRatio 为相对画布宽高的留白比例（如 0.97 表示最多占 97%） */
+    function computeDrawSize(img, cw, ch, paddingRatio) {
+      const pad = paddingRatio == null ? 0.97 : paddingRatio;
+      const aw = Math.max(1, cw * pad);
+      const ah = Math.max(1, ch * pad);
+      const s = Math.min(aw / img.width, ah / img.height);
+      const targetW = Math.max(1, Math.round(img.width * s));
+      const targetH = Math.max(1, Math.round(img.height * s));
+      return { targetW, targetH };
+    }
+
+    function scaleToDisplayArea(targetW, targetH, multiplier) {
+      const k = multiplier == null ? DISPLAY_AREA_IMAGE_SCALE : multiplier;
+      return {
+        targetW: Math.max(1, Math.round(targetW * k)),
+        targetH: Math.max(1, Math.round(targetH * k)),
+      };
+    }
+
+    function applyZhizhaDisplayScaleIfNeeded(targetW, targetH) {
+      if (getTypeDir() !== "zhizha") return { targetW, targetH };
+      const k = ZHIZHA_DISPLAY_IMAGE_SCALE;
+      return {
+        targetW: Math.max(1, Math.round(targetW * k)),
+        targetH: Math.max(1, Math.round(targetH * k)),
+      };
+    }
+
+    function drawComboPreviewImage(img) {
+      const w = canvas.clientWidth;
+      const h = canvas.clientHeight;
+      ctx.clearRect(0, 0, w, h);
+      let { targetW, targetH } = computeDrawSize(img, w, h, COMBO_PREVIEW_FIT);
+      ({ targetW, targetH } = scaleToDisplayArea(targetW, targetH, PREVIEW_DISPLAY_AREA_IMAGE_SCALE));
+      /* 与背面 .combo-preview-fit 一致：内容在画布内严格居中，各花灯不再单独上移/下移 */
+      const drawX = Math.round((w - targetW) / 2);
+      const drawY = Math.round((h - targetH) / 2);
+      ctx.drawImage(img, drawX, drawY, targetW, targetH);
+    }
+
+    async function drawLamp() {
+      if (state.previewMode) {
+        try {
+          const { img } = await loadComboPreviewImageResource();
+          drawComboPreviewImage(img);
+        } catch (e) {
+          const detail = e && e.message ? e.message : "";
+          window.alert("该组合暂未开放或图片路径不对。\n\n已尝试：\n" + detail);
+          state.previewMode = false;
+          state.previewComboResolvedSrc = null;
+          makerPage.classList.remove("preview-mode");
+          if (flipCard) flipCard.classList.remove("flip-on-enter");
+          showHome();
+        }
+        return;
+      }
+
+      if (isZhenciType()) {
+        const src = getZhenciDisplaySrc();
+        try {
+          const img = await loadImage(src);
+          const w = canvas.clientWidth;
+          const h = canvas.clientHeight;
+          ctx.clearRect(0, 0, w, h);
+          let { targetW, targetH } = computeDrawSize(img, w, h, 0.97);
+          ({ targetW, targetH } = scaleToDisplayArea(targetW, targetH));
+          const drawX = Math.round((w - targetW) / 2);
+          const shiftUp = Math.round(h * ZHENCI_DISPLAY_SHIFT_UP_RATIO);
+          const shiftDown = Math.round(h * ZHENCI_DISPLAY_SHIFT_DOWN_RATIO);
+          const drawY = Math.round((h - targetH) / 2) - shiftUp + shiftDown;
+          ctx.drawImage(img, drawX, drawY, targetW, targetH);
+        } catch (err) {
+          console.error(err);
+        }
+        return;
+      }
+
+      const hasAnyPart = state.shownParts.cap || state.shownParts.body || state.shownParts.base || state.shownParts.chui;
+      if (!hasAnyPart) return clearLamp();
+
+      const pieces = [];
+      if (state.shownParts.base) pieces.push(`images/${getTypeDir()}/base_img_${state.selected.base}.png`);
+      if (state.shownParts.body) pieces.push(getBodyPieceSrc());
+      if (state.shownParts.cap) pieces.push(`images/${getTypeDir()}/cap_img_${state.selected.cap}.png`);
+      if (state.shownParts.chui) pieces.push(`images/${getTypeDir()}/chui_img_${state.selected.chui}.png`);
+
+      try {
+        const images = await Promise.all(pieces.map((src) => loadImage(src)));
+        const w = canvas.clientWidth;
+        const h = canvas.clientHeight;
+        ctx.clearRect(0, 0, w, h);
+        images.forEach((img) => {
+          let { targetW, targetH } = computeDrawSize(img, w, h, 0.97);
+          ({ targetW, targetH } = scaleToDisplayArea(targetW, targetH));
+          ({ targetW, targetH } = applyZhizhaDisplayScaleIfNeeded(targetW, targetH));
+          const drawX = Math.round((w - targetW) / 2);
+          let drawY = Math.round((h - targetH) / 2);
+          if (getTypeDir() === "kezhi_liaosi") {
+            drawY -= Math.round(h * LAMP_DRAW_SHIFT_UP_RATIO);
+          }
+          ctx.drawImage(img, drawX, drawY, targetW, targetH);
+        });
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    function onTabClick(e) {
+      state.currentTab = e.currentTarget.dataset.key;
+      state.bodyMode = "style";
+      renderUI();
+      drawLamp();
+    }
+
+    function onModeClick(e) {
+      const mode = e.currentTarget.dataset.mode;
+      if (isZhenciType()) {
+        state.zhenciMode = mode === "style" ? "pattern" : "color";
+        if (state.shownParts.zhenciPattern && state.shownParts.zhenciColor) {
+          state.zhenciDisplayMode = state.zhenciMode === "pattern" ? "pattern" : "color";
+        }
+        renderUI();
+        drawLamp();
+        return;
+      }
+      if (mode === "pattern" && (state.currentTab !== "body" || !allowsBodyPattern())) return;
+      state.bodyMode = mode;
+      renderUI();
+      drawLamp();
+    }
+
+    function applyOptionSelection(index) {
+      if (isZhenciType()) {
+        if (state.zhenciMode === "pattern") {
+          state.selected.zhenciPattern = index;
+          state.shownParts.zhenciPattern = true;
+          state.zhenciDisplayMode = "pattern";
+        } else {
+          state.selected.zhenciColor = index;
+          state.shownParts.zhenciColor = true;
+          state.zhenciDisplayMode = "color";
+        }
+        return;
+      }
+      if (state.currentTab === "cap") {
+        state.selected.cap = index;
+        state.shownParts.cap = true;
+      } else if (state.currentTab === "base") {
+        state.selected.base = index;
+        state.shownParts.base = true;
+      } else if (state.currentTab === "chui") {
+        state.selected.chui = index;
+        // 灯垂 6：无灯垂，展示区不绘制灯垂图层
+        state.shownParts.chui = index !== 6;
+      } else if (state.currentTab === "body") {
+        if (state.bodyMode === "style") {
+          state.selected.bodyStyle = index;
+          state.bodyDisplayMode = "style";
+          state.shownParts.body = true;
+        } else {
+          if (!allowsBodyPattern()) return;
+          state.selected.bodyPattern = index;
+          state.bodyDisplayMode = "pattern";
+          state.shownParts.body = true;
+        }
+      }
+    }
+
+    function onOptionClick(e) {
+      const index = Number(e.currentTarget.dataset.index);
+      applyOptionSelection(index);
+      renderUI();
+      drawLamp();
+    }
+
+    function shiftCurrentOption(delta) {
+      if (state.previewMode) return;
+      const meta = getOptionMeta();
+      if (meta.disabled || !meta.count || !meta.active) return;
+      const next = ((meta.active - 1 + delta + meta.count) % meta.count) + 1;
+      applyOptionSelection(next);
+      renderUI();
+      drawLamp();
+    }
+
+    function showMakerForType(typeKey) {
+      currentLampType = typeKey;
+      state = makerStates[typeKey] || createDefaultState();
+      makerStates[typeKey] = state;
+      if (comboBackImg) comboBackImg.src = "images/combo_back.png";
+      homePage.classList.add("hidden");
+      typePage.classList.add("hidden");
+      makerPage.classList.remove("hidden");
+      setCanvasSize();
+      makerPage.classList.toggle("preview-mode", state.previewMode);
+      if (!state.previewMode && flipCard) flipCard.classList.remove("flip-on-enter");
+      renderUI();
+      drawLamp();
+    }
+
+    function showTypeSelect() {
+      state.previewMode = false;
+      state.previewComboResolvedSrc = null;
+      makerPage.classList.remove("preview-mode");
+      const qrPanel = document.getElementById("previewQrPanel");
+      if (qrPanel) qrPanel.setAttribute("aria-hidden", "true");
+      if (flipCard) flipCard.classList.remove("flip-on-enter");
+      makerPage.classList.add("hidden");
+      homePage.classList.add("hidden");
+      typePage.classList.remove("hidden");
+    }
+
+    function showHome() {
+      state.previewMode = false;
+      state.previewComboResolvedSrc = null;
+      makerPage.classList.remove("preview-mode");
+      const qrPanel = document.getElementById("previewQrPanel");
+      if (qrPanel) qrPanel.setAttribute("aria-hidden", "true");
+      if (flipCard) flipCard.classList.remove("flip-on-enter");
+      makerPage.classList.add("hidden");
+      typePage.classList.add("hidden");
+      homePage.classList.remove("hidden");
+    }
+
+    function restartFlipPreviewIntro() {
+      if (!flipCard) return;
+      flipCard.classList.remove("flip-on-enter");
+      void flipCard.offsetWidth;
+      flipCard.classList.add("flip-on-enter");
+    }
+
+    function replayPreviewAnimation() {
+      if (!state.previewMode) return;
+      restartFlipPreviewIntro();
+    }
+
+    async function enterPreviewMode() {
+      if (isZhenciType()) {
+        if (!state.shownParts.zhenciPattern || !state.shownParts.zhenciColor) {
+          window.alert("请先选择纹样与颜色后再预览成品");
+          return;
+        }
+      } else {
+        const hasAnyPart = state.shownParts.cap || state.shownParts.body || state.shownParts.base || state.shownParts.chui;
+        if (!hasAnyPart) {
+          window.alert("请先搭配您的花灯");
+          return;
+        }
+      }
+      let img;
+      let resolvedSrc = null;
+      try {
+        const loaded = await loadComboPreviewImageResource();
+        img = loaded.img;
+        resolvedSrc = loaded.resolvedSrc;
+      } catch (e) {
+        const detail = e && e.message ? e.message : getComboImageSrc();
+        window.alert("该组合暂未开放或图片路径不对。\n\n已尝试：\n" + detail);
+        showHome();
+        return;
+      }
+      state.previewMode = true;
+      state.previewComboResolvedSrc = resolvedSrc;
+      makerPage.classList.add("preview-mode");
+      if (comboBackImg) comboBackImg.src = "images/combo_back.png";
+      requestAnimationFrame(() => {
+        setCanvasSize();
+        drawComboPreviewImage(img);
+        requestAnimationFrame(() => {
+          restartFlipPreviewIntro();
+          updatePreviewQrCode();
+        });
+      });
+    }
+
+    function exitPreviewMode() {
+      state.previewMode = false;
+      state.previewComboResolvedSrc = null;
+      makerPage.classList.remove("preview-mode");
+      const qrPanel = document.getElementById("previewQrPanel");
+      if (qrPanel) qrPanel.setAttribute("aria-hidden", "true");
+      if (flipCard) flipCard.classList.remove("flip-on-enter");
+      requestAnimationFrame(() => {
+        setCanvasSize();
+        drawLamp();
+      });
+    }
+
+    function togglePreviewMode() {
+      if (state.previewMode) exitPreviewMode();
+      else enterPreviewMode();
+    }
+
+    function onBackClick() {
+      if (state.previewMode) return showHome();
+      showTypeSelect();
+    }
+
+    startBtn.addEventListener("click", () => {
+      homePage.classList.add("hidden");
+      typePage.classList.remove("hidden");
+    });
+    typeButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        showMakerForType(btn.dataset.type);
+      });
+    });
+    typeBackBtn.addEventListener("click", showHome);
+    backBtn.addEventListener("click", onBackClick);
+    confirmBtn.addEventListener("click", togglePreviewMode);
+    previewReplayBtn.addEventListener("click", replayPreviewAnimation);
+    styleBtn.addEventListener("click", onModeClick);
+    patternBtn.addEventListener("click", onModeClick);
+    makerNavLeft.addEventListener("click", () => shiftCurrentOption(-1));
+    makerNavRight.addEventListener("click", () => shiftCurrentOption(1));
+
+    window.addEventListener("resize", () => {
+      if (!makerPage.classList.contains("hidden")) {
+        setCanvasSize();
+        drawLamp();
+        if (state.previewMode) updatePreviewQrCode();
+      }
+    });
+  </script>
+</body>
+</html>
