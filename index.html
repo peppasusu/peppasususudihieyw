@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>泉州花灯·自由组合</title>
+  <title>云上灯坊</title>
+  <link rel="preload" as="image" href="images/home_bg_1.png" />
   <style>
     @font-face {
       font-family: "DreamHanSerifCN";
@@ -1115,13 +1116,13 @@
   <div class="app">
     <section id="homePage" class="page">
       <div class="home-bg-float-stack" aria-hidden="true">
-        <img src="images/home_bg_1.png" alt="" />
-        <img src="images/home_bg_2.png" alt="" />
-        <img src="images/home_bg_3.png" alt="" />
-        <img src="images/home_bg_4.png" alt="" />
-        <img src="images/home_bg_5.png" alt="" />
-        <img src="images/home_bg_6.png" alt="" />
-        <img src="images/home_bg_7.png" alt="" />
+        <img src="images/home_bg_1.png" alt="" fetchpriority="high" decoding="async" />
+        <img src="images/home_bg_2.png" alt="" loading="lazy" decoding="async" />
+        <img src="images/home_bg_3.png" alt="" loading="lazy" decoding="async" />
+        <img src="images/home_bg_4.png" alt="" loading="lazy" decoding="async" />
+        <img src="images/home_bg_5.png" alt="" loading="lazy" decoding="async" />
+        <img src="images/home_bg_6.png" alt="" loading="lazy" decoding="async" />
+        <img src="images/home_bg_7.png" alt="" loading="lazy" decoding="async" />
       </div>
       <div class="home-content">
         <button id="startBtn" class="start-btn">开始制作</button>
@@ -1129,31 +1130,31 @@
     </section>
 
     <section id="typePage" class="page hidden">
-      <img class="bg" src="images/maker_bg.png" alt="类型页背景" />
+      <img class="bg" src="images/maker_bg.png" alt="类型页背景" loading="lazy" decoding="async" />
       <button id="typeBackBtn" class="back-btn type-back-btn" aria-label="返回首页">
-        <img src="images/icon_back.png" alt="" aria-hidden="true" />
+        <img src="images/icon_back.png" alt="" aria-hidden="true" loading="lazy" decoding="async" />
       </button>
       <h2 class="type-title">选择花灯工艺</h2>
       <div class="type-content">
         <div class="type-cards">
           <button class="type-btn type-btn-image type-btn-kezhi" data-type="kezhi_liaosi" aria-label="刻纸料丝灯">
             <span class="type-btn-kezhi-main">
-              <img src="images/type_kezhi.png" alt="" aria-hidden="true" />
+              <img src="images/type_kezhi.png" alt="" aria-hidden="true" loading="lazy" decoding="async" />
             </span>
             <span class="type-btn-open-panel" aria-hidden="true">
-              <img src="images/type_kezhi_open.png" alt="" />
+              <img src="images/type_kezhi_open.png" alt="" loading="lazy" decoding="async" />
             </span>
           </button>
           <button class="type-btn type-btn-image" data-type="zhizha" aria-label="纸扎灯">
-            <img class="type-btn-main-img-plain" src="images/type_zhizha.png" alt="" aria-hidden="true" />
+            <img class="type-btn-main-img-plain" src="images/type_zhizha.png" alt="" aria-hidden="true" loading="lazy" decoding="async" />
             <span class="type-btn-open-panel bottom-layer zhizha-open" aria-hidden="true">
-              <img src="images/type_zhizha_open.png" alt="" />
+              <img src="images/type_zhizha_open.png" alt="" loading="lazy" decoding="async" />
             </span>
           </button>
           <button class="type-btn type-btn-image" data-type="zhenci_wugu" aria-label="针刺无骨灯">
-            <img class="type-btn-main-img-plain" src="images/type_zhenci_wugu.png" alt="" aria-hidden="true" onerror="this.onerror=null;this.src='images/type_zhenci.png';" />
+            <img class="type-btn-main-img-plain" src="images/type_zhenci_wugu.png" alt="" aria-hidden="true" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='images/type_zhenci.png';" />
             <span class="type-btn-open-panel bottom-layer zhenci-open" aria-hidden="true">
-              <img src="images/type_zhenci_open.png" alt="" />
+              <img src="images/type_zhenci_open.png" alt="" loading="lazy" decoding="async" />
             </span>
           </button>
         </div>
@@ -1161,15 +1162,15 @@
     </section>
 
     <section id="makerPage" class="page hidden">
-      <img class="bg" src="images/maker_bg.png" alt="制作页背景" />
+      <img class="bg" src="images/maker_bg.png" alt="制作页背景" loading="lazy" decoding="async" />
 
       <div class="maker-shell">
         <div class="maker-topbar">
           <button id="backBtn" class="back-btn" aria-label="返回">
-            <img src="images/icon_back.png" alt="" aria-hidden="true" />
+            <img src="images/icon_back.png" alt="" aria-hidden="true" loading="lazy" decoding="async" />
           </button>
           <button id="confirmBtn" class="confirm-btn" aria-label="预览成品">
-            <img src="images/icon_done.png" alt="" aria-hidden="true" />
+            <img src="images/icon_done.png" alt="" aria-hidden="true" loading="lazy" decoding="async" />
           </button>
         </div>
 
@@ -1177,12 +1178,12 @@
           <div class="maker-stage">
             <div class="display-area">
               <button id="makerNavLeft" class="maker-nav-btn maker-nav-left" aria-label="上一个样式">
-                <img src="images/icon_maker_left.png" alt="" aria-hidden="true" />
+                <img src="images/icon_maker_left.png" alt="" aria-hidden="true" loading="lazy" decoding="async" />
               </button>
               <button id="makerNavRight" class="maker-nav-btn maker-nav-right" aria-label="下一个样式">
-                <img src="images/icon_maker_right.png" alt="" aria-hidden="true" />
+                <img src="images/icon_maker_right.png" alt="" aria-hidden="true" loading="lazy" decoding="async" />
               </button>
-              <img class="maker-show-bg" src="images/maker_show.png" alt="" aria-hidden="true" />
+              <img class="maker-show-bg" src="images/maker_show.png" alt="" aria-hidden="true" loading="lazy" decoding="async" />
               <div class="flip-scene">
                 <div id="flipCard" class="flip-card">
                   <div class="flip-face flip-front">
@@ -1190,7 +1191,7 @@
                   </div>
                   <div class="flip-face flip-back">
                     <div class="combo-preview-fit">
-                      <img id="comboBackImg" src="images/combo_back.png" alt="组合背面" />
+                      <img id="comboBackImg" src="images/combo_back.png" alt="组合背面" decoding="async" />
                     </div>
                   </div>
                 </div>
@@ -1547,8 +1548,8 @@
         node.className = optCls;
         node.dataset.index = String(i);
         node.innerHTML = showOptionText
-          ? `<img src="images/${getTypeDir()}/${meta.prefix}${i}.png" alt="${labelText}"><span>${labelText}</span>`
-          : `<img src="images/${getTypeDir()}/${meta.prefix}${i}.png" alt="${labelText}">`;
+          ? `<img src="images/${getTypeDir()}/${meta.prefix}${i}.png" alt="${labelText}" loading="lazy" decoding="async"><span>${labelText}</span>`
+          : `<img src="images/${getTypeDir()}/${meta.prefix}${i}.png" alt="${labelText}" loading="lazy" decoding="async">`;
         if (!meta.disabled) node.addEventListener("click", onOptionClick);
         optionsGrid.appendChild(node);
       }
@@ -1564,6 +1565,7 @@
       if (imageCache.has(src)) return Promise.resolve(imageCache.get(src));
       return new Promise((resolve, reject) => {
         const img = new Image();
+        img.decoding = "async";
         img.onload = () => {
           imageCache.set(src, img);
           resolve(img);
