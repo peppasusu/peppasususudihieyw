@@ -4,11 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>云上灯坊</title>
-  <link rel="preload" as="image" href="images/home_bg_1.png" />
+  <link rel="preload" as="image" href="images/home_bg.webp" fetchpriority="high" />
+  <link rel="preload" as="image" href="images/home_bg_1.webp" />
+  <link rel="preload" as="font" href="fonts/DreamHanSerifCN-W22.woff2" type="font/woff2" crossorigin="anonymous" />
   <style>
     @font-face {
       font-family: "DreamHanSerifCN";
-      src: url("./fonts/DreamHanSerifCN-W22.ttf") format("truetype");
+      src: url("./fonts/DreamHanSerifCN-W22.woff2") format("woff2");
       font-weight: 400;
       font-style: normal;
       font-display: swap;
@@ -82,7 +84,7 @@
     }
 
     #homePage {
-      background: var(--page-bg) url("images/home_bg.png") center / cover no-repeat;
+      background: var(--page-bg) url("images/home_bg.webp") center / cover no-repeat;
     }
 
     #typePage {
@@ -1009,49 +1011,6 @@
       transform: translateY(0.4px);
     }
 
-    .preview-qr-panel {
-      display: none;
-      position: absolute;
-      z-index: 4;
-      left: max(10px, env(safe-area-inset-left));
-      bottom: max(10px, env(safe-area-inset-bottom));
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-      padding: 8px 10px;
-      border-radius: 10px;
-      background: rgba(16, 9, 33, 0.88);
-      max-width: min(200px, 42vw);
-      pointer-events: none;
-      box-sizing: border-box;
-    }
-
-    .preview-qr-title {
-      font-size: 11px;
-      font-weight: 600;
-      color: rgba(255, 255, 255, 0.92);
-      text-align: center;
-      line-height: 1.25;
-    }
-
-    #previewQrCanvas {
-      display: block;
-      border-radius: 4px;
-      background: #fff;
-    }
-
-    .preview-qr-hint {
-      font-size: 10px;
-      color: rgba(255, 255, 255, 0.72);
-      text-align: center;
-      line-height: 1.35;
-      max-width: 180px;
-    }
-
-    #makerPage.preview-mode .preview-qr-panel {
-      display: flex;
-    }
-
     /* 预览：仅左侧展示区；卡片大小与制作页同列时一致（见上 .display-area 宽度） */
     #makerPage.preview-mode .maker-main {
       gap: 0;
@@ -1116,13 +1075,13 @@
   <div class="app">
     <section id="homePage" class="page">
       <div class="home-bg-float-stack" aria-hidden="true">
-        <img src="images/home_bg_1.png" alt="" fetchpriority="high" decoding="async" />
-        <img src="images/home_bg_2.png" alt="" loading="lazy" decoding="async" />
-        <img src="images/home_bg_3.png" alt="" loading="lazy" decoding="async" />
-        <img src="images/home_bg_4.png" alt="" loading="lazy" decoding="async" />
-        <img src="images/home_bg_5.png" alt="" loading="lazy" decoding="async" />
-        <img src="images/home_bg_6.png" alt="" loading="lazy" decoding="async" />
-        <img src="images/home_bg_7.png" alt="" loading="lazy" decoding="async" />
+        <img src="images/home_bg_1.webp" alt="" fetchpriority="high" decoding="async" />
+        <img src="images/home_bg_2.webp" alt="" loading="lazy" decoding="async" />
+        <img src="images/home_bg_3.webp" alt="" loading="lazy" decoding="async" />
+        <img src="images/home_bg_4.webp" alt="" loading="lazy" decoding="async" />
+        <img src="images/home_bg_5.webp" alt="" loading="lazy" decoding="async" />
+        <img src="images/home_bg_6.webp" alt="" loading="lazy" decoding="async" />
+        <img src="images/home_bg_7.webp" alt="" loading="lazy" decoding="async" />
       </div>
       <div class="home-content">
         <button id="startBtn" class="start-btn">开始制作</button>
@@ -1130,7 +1089,7 @@
     </section>
 
     <section id="typePage" class="page hidden">
-      <img class="bg" src="images/maker_bg.png" alt="类型页背景" loading="lazy" decoding="async" />
+      <img class="bg" src="images/maker_bg.webp" alt="类型页背景" loading="lazy" decoding="async" />
       <button id="typeBackBtn" class="back-btn type-back-btn" aria-label="返回首页">
         <img src="images/icon_back.png" alt="" aria-hidden="true" loading="lazy" decoding="async" />
       </button>
@@ -1139,22 +1098,22 @@
         <div class="type-cards">
           <button class="type-btn type-btn-image type-btn-kezhi" data-type="kezhi_liaosi" aria-label="刻纸料丝灯">
             <span class="type-btn-kezhi-main">
-              <img src="images/type_kezhi.png" alt="" aria-hidden="true" loading="lazy" decoding="async" />
+              <img src="images/type_kezhi.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" />
             </span>
             <span class="type-btn-open-panel" aria-hidden="true">
-              <img src="images/type_kezhi_open.png" alt="" loading="lazy" decoding="async" />
+              <img src="images/type_kezhi_open.webp" alt="" loading="lazy" decoding="async" />
             </span>
           </button>
           <button class="type-btn type-btn-image" data-type="zhizha" aria-label="纸扎灯">
-            <img class="type-btn-main-img-plain" src="images/type_zhizha.png" alt="" aria-hidden="true" loading="lazy" decoding="async" />
+            <img class="type-btn-main-img-plain" src="images/type_zhizha.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" />
             <span class="type-btn-open-panel bottom-layer zhizha-open" aria-hidden="true">
-              <img src="images/type_zhizha_open.png" alt="" loading="lazy" decoding="async" />
+              <img src="images/type_zhizha_open.webp" alt="" loading="lazy" decoding="async" />
             </span>
           </button>
           <button class="type-btn type-btn-image" data-type="zhenci_wugu" aria-label="针刺无骨灯">
-            <img class="type-btn-main-img-plain" src="images/type_zhenci_wugu.png" alt="" aria-hidden="true" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='images/type_zhenci.png';" />
+            <img class="type-btn-main-img-plain" src="images/type_zhenci.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='images/type_zhenci.webp';" />
             <span class="type-btn-open-panel bottom-layer zhenci-open" aria-hidden="true">
-              <img src="images/type_zhenci_open.png" alt="" loading="lazy" decoding="async" />
+              <img src="images/type_zhenci_open.webp" alt="" loading="lazy" decoding="async" />
             </span>
           </button>
         </div>
@@ -1162,7 +1121,7 @@
     </section>
 
     <section id="makerPage" class="page hidden">
-      <img class="bg" src="images/maker_bg.png" alt="制作页背景" loading="lazy" decoding="async" />
+      <img class="bg" src="images/maker_bg.webp" alt="制作页背景" loading="lazy" decoding="async" />
 
       <div class="maker-shell">
         <div class="maker-topbar">
@@ -1183,7 +1142,7 @@
               <button id="makerNavRight" class="maker-nav-btn maker-nav-right" aria-label="下一个样式">
                 <img src="images/icon_maker_right.png" alt="" aria-hidden="true" loading="lazy" decoding="async" />
               </button>
-              <img class="maker-show-bg" src="images/maker_show.png" alt="" aria-hidden="true" loading="lazy" decoding="async" />
+              <img class="maker-show-bg" src="images/maker_show.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" />
               <div class="flip-scene">
                 <div id="flipCard" class="flip-card">
                   <div class="flip-face flip-front">
@@ -1191,15 +1150,10 @@
                   </div>
                   <div class="flip-face flip-back">
                     <div class="combo-preview-fit">
-                      <img id="comboBackImg" src="images/combo_back.png" alt="组合背面" decoding="async" />
+                      <img id="comboBackImg" src="images/combo_back.webp" alt="组合背面" loading="lazy" decoding="async" />
                     </div>
                   </div>
                 </div>
-              </div>
-              <div id="previewQrPanel" class="preview-qr-panel" aria-hidden="true">
-                <span class="preview-qr-title">扫码保存成品图</span>
-                <canvas id="previewQrCanvas" width="128" height="128"></canvas>
-                <span class="preview-qr-hint">手机打开后长按图片可存相册</span>
               </div>
             </div>
           </div>
@@ -1229,8 +1183,6 @@
     </section>
   </div>
 
-  <script src="lantern-config.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js" crossorigin="anonymous"></script>
   <script>
     const OPTION_COUNTS = { cap: 4, bodyStyle: 4, base: 4, chui: 6 };
     const OPTION_SLOT_COUNT_CHUI = 6;
@@ -1250,11 +1202,6 @@
     const PREVIEW_DISPLAY_AREA_IMAGE_SCALE = 1;
     /** 纸扎灯展示区画布再缩小到此比例（在 DISPLAY_AREA_IMAGE_SCALE 之后） */
     const ZHIZHA_DISPLAY_IMAGE_SCALE = 0.9;
-    /** 扫码用图片地址前缀：在 lantern-config.js 里设 window.LANTERN_PUBLIC_BASE_URL（须以 / 结尾）；不填则用当前页面地址。 */
-    const PUBLIC_BASE_URL =
-      typeof window !== "undefined" && typeof window.LANTERN_PUBLIC_BASE_URL === "string"
-        ? window.LANTERN_PUBLIC_BASE_URL.trim()
-        : "";
 
     const LAMP_TYPES = [
       { key: "kezhi_liaosi", label: "刻纸料丝灯" },
@@ -1285,6 +1232,15 @@
     let currentLampType = null;
     const makerStates = Object.fromEntries(LAMP_TYPES.map((item) => [item.key, createDefaultState()]));
     let state = makerStates.kezhi_liaosi;
+
+    /** 离开制作流程时清空三种工艺各自的进度，避免再次进入仍是上次搭配 */
+    function resetAllMakerStates() {
+      for (const item of LAMP_TYPES) {
+        makerStates[item.key] = createDefaultState();
+      }
+      currentLampType = null;
+      state = makerStates[LAMP_TYPES[0].key];
+    }
 
     const imageCache = new Map();
 
@@ -1575,66 +1531,6 @@
       });
     }
 
-    /** 当前静态页的「资源根」（结尾带 /），用于把 images/... 拼成绝对 URL，兼容 GitHub Pages 的 /仓库名/ 子路径 */
-    function getStaticSiteBaseUrl() {
-      const u = new URL(window.location.href);
-      let path = u.pathname;
-      if (path.endsWith("/index.html")) {
-        path = path.slice(0, -"index.html".length);
-      }
-      if (!path.endsWith("/")) {
-        const segments = path.split("/").filter(Boolean);
-        const last = segments.length ? segments[segments.length - 1] : "";
-        const looksLikeFile = /\.[0-9a-z]{1,8}$/i.test(last);
-        path = looksLikeFile ? path.replace(/\/[^/]*$/, "/") : `${path}/`;
-      }
-      return u.origin + path;
-    }
-
-    function getComboImagePublicUrl(relPath) {
-      const rel = String(relPath || "").replace(/^\.\//, "");
-      const base = String(PUBLIC_BASE_URL || "").trim();
-      if (base && /^https?:\/\//i.test(base)) {
-        return base.replace(/\/?$/, "/") + rel;
-      }
-      try {
-        return new URL(rel, getStaticSiteBaseUrl()).href;
-      } catch {
-        return rel;
-      }
-    }
-
-    function updatePreviewQrCode() {
-      const canvasEl = document.getElementById("previewQrCanvas");
-      const panel = document.getElementById("previewQrPanel");
-      const hintEl = panel && panel.querySelector(".preview-qr-hint");
-      if (!canvasEl || !state.previewMode) return;
-      const rel = state.previewComboResolvedSrc || getComboImageSrc();
-      const url = getComboImagePublicUrl(rel);
-      if (panel) {
-        panel.setAttribute("aria-hidden", "false");
-      }
-      if (hintEl) {
-        hintEl.textContent =
-          window.location.protocol === "file:"
-            ? "本地 file 打开时他机无法扫码；部署到 HTTPS 后再试。"
-            : "手机打开后长按图片可存相册";
-      }
-      if (typeof QRCode === "undefined") {
-        if (hintEl) hintEl.textContent = "二维码库加载失败，请联网后重试";
-        return;
-      }
-      const size = Math.round(Math.min(140, Math.max(96, window.innerWidth * 0.22)));
-      QRCode.toCanvas(
-        canvasEl,
-        url,
-        { width: size, margin: 1, color: { dark: "#1a0d2e", light: "#ffffff" } },
-        (err) => {
-          if (err) console.error(err);
-        }
-      );
-    }
-
     function clearLamp() {
       const w = canvas.clientWidth;
       const h = canvas.clientHeight;
@@ -1693,10 +1589,8 @@
           const { img } = await loadComboPreviewImageResource();
           drawComboPreviewImage(img);
         } catch (e) {
-          const detail = e && e.message ? e.message : "";
-          window.alert("该组合暂未开放或图片路径不对。\n\n已尝试：\n" + detail);
+          window.alert("该组合未开放。");
           state.previewMode = false;
-          state.previewComboResolvedSrc = null;
           makerPage.classList.remove("preview-mode");
           if (flipCard) flipCard.classList.remove("flip-on-enter");
           showHome();
@@ -1836,7 +1730,7 @@
       currentLampType = typeKey;
       state = makerStates[typeKey] || createDefaultState();
       makerStates[typeKey] = state;
-      if (comboBackImg) comboBackImg.src = "images/combo_back.png";
+      if (comboBackImg) comboBackImg.src = "images/combo_back.webp";
       homePage.classList.add("hidden");
       typePage.classList.add("hidden");
       makerPage.classList.remove("hidden");
@@ -1848,11 +1742,8 @@
     }
 
     function showTypeSelect() {
-      state.previewMode = false;
-      state.previewComboResolvedSrc = null;
+      resetAllMakerStates();
       makerPage.classList.remove("preview-mode");
-      const qrPanel = document.getElementById("previewQrPanel");
-      if (qrPanel) qrPanel.setAttribute("aria-hidden", "true");
       if (flipCard) flipCard.classList.remove("flip-on-enter");
       makerPage.classList.add("hidden");
       homePage.classList.add("hidden");
@@ -1860,11 +1751,8 @@
     }
 
     function showHome() {
-      state.previewMode = false;
-      state.previewComboResolvedSrc = null;
+      resetAllMakerStates();
       makerPage.classList.remove("preview-mode");
-      const qrPanel = document.getElementById("previewQrPanel");
-      if (qrPanel) qrPanel.setAttribute("aria-hidden", "true");
       if (flipCard) flipCard.classList.remove("flip-on-enter");
       makerPage.classList.add("hidden");
       typePage.classList.add("hidden");
@@ -1897,37 +1785,29 @@
         }
       }
       let img;
-      let resolvedSrc = null;
       try {
         const loaded = await loadComboPreviewImageResource();
         img = loaded.img;
-        resolvedSrc = loaded.resolvedSrc;
       } catch (e) {
-        const detail = e && e.message ? e.message : getComboImageSrc();
-        window.alert("该组合暂未开放或图片路径不对。\n\n已尝试：\n" + detail);
+        window.alert("该组合未开放。");
         showHome();
         return;
       }
       state.previewMode = true;
-      state.previewComboResolvedSrc = resolvedSrc;
       makerPage.classList.add("preview-mode");
-      if (comboBackImg) comboBackImg.src = "images/combo_back.png";
+      if (comboBackImg) comboBackImg.src = "images/combo_back.webp";
       requestAnimationFrame(() => {
         setCanvasSize();
         drawComboPreviewImage(img);
         requestAnimationFrame(() => {
           restartFlipPreviewIntro();
-          updatePreviewQrCode();
         });
       });
     }
 
     function exitPreviewMode() {
       state.previewMode = false;
-      state.previewComboResolvedSrc = null;
       makerPage.classList.remove("preview-mode");
-      const qrPanel = document.getElementById("previewQrPanel");
-      if (qrPanel) qrPanel.setAttribute("aria-hidden", "true");
       if (flipCard) flipCard.classList.remove("flip-on-enter");
       requestAnimationFrame(() => {
         setCanvasSize();
@@ -1967,7 +1847,6 @@
       if (!makerPage.classList.contains("hidden")) {
         setCanvasSize();
         drawLamp();
-        if (state.previewMode) updatePreviewQrCode();
       }
     });
   </script>
